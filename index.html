@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SastankoMetar 3000</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>SastankoMeter 3000</h1>
+
+  <div class="section">
+    <label for="dosada">Razina dosade (1–10): <span id="dosadaPrikaz">5</span></label>
+    <input type="range" id="dosada" min="1" max="10" value="5" />
+  </div>
+
+  <div class="section">
+    <label>Zaspali sudionici: <span id="zaspali">0</span></label>
+    <button onclick="povecajZaspale()">+ Zaspao netko</button>
+  </div>
+
+  <div class="section">
+    <label>Beskorisni PowerPoint slajdovi: <span id="slajdovi">0</span></label>
+    <button onclick="povecajSlajdove()">+ Dodaj beskoristan slajd</button>
+  </div>
+
+  <div class="section">
+    <label for="trajanje">Trajanje sastanka (u minutama):</label>
+    <input type="number" id="trajanje" value="60" min="1" />
+  </div>
+
+  <div class="section">
+    <button onclick="izracunajIndeks()">Izračunaj Indeks korporativnog umora</button>
+    <div class="result" id="indeksPrikaz"></div>
+  </div>
+
+  <script>
+    const dosadaInput = document.getElementById("dosada");
+    const dosadaPrikaz = document.getElementById("dosadaPrikaz");
+    const zaspaliEl = document.getElementById("zaspali");
+    const slajdoviEl = document.getElementById("slajdovi");
+    const indeksPrikaz = document.getElementById("indeksPrikaz");
+
+    let zaspali = 0;
+    let slajdovi = 0;
+
+    dosadaInput.addEventListener("input", () => {
+      dosadaPrikaz.textContent = dosadaInput.value;
+    });
+
+    function povecajZaspale() {
+      zaspali++;
+      zaspaliEl.textContent = zaspali;
+    }
+
+    function povecajSlajdove() {
+      slajdovi++;
+      slajdoviEl.textContent = slajdovi;
+    }
+
+    function izracunajIndeks() {
+      const dosada = parseInt(dosadaInput.value);
+      const trajanje = parseInt(document.getElementById("trajanje").value);
+      if (trajanje <= 0) {
+        indeksPrikaz.textContent = "Unesi trajanje sastanka!";
+        return;
+      }
+
+      const indeks = ((dosada * zaspali * slajdovi) / trajanje).toFixed(2);
+      indeksPrikaz.textContent = `IKU: ${indeks}`;
+    }
+  </script>
+</body>
+</html>
